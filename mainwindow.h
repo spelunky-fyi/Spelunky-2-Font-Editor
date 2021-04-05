@@ -31,13 +31,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void paintEvent(QPaintEvent* e);
+    void DrawMainUI(QPaintEvent* e);
     void wheelEvent(QWheelEvent* e);
     void closeEvent(QCloseEvent* e);
 
-    void mousePressEvent(QMouseEvent* e);
-    void mouseMoveEvent(QMouseEvent* e);
-    void mouseReleaseEvent(QMouseEvent* e);
+    void MousePress(QMouseEvent* e);
+    void MouseMove(QMouseEvent* e);
+    void MouseRelease(QMouseEvent* e);
+    void KeyboardControls(QKeyEvent* e);
+
+    bool eventFilter(QObject *watched, QEvent *event);
 
     void SetCurrentGlyph(FnbGlyphInfo* g);
 

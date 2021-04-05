@@ -106,7 +106,7 @@ float FnbFont::DrawGlyph(QPainter &p, int codepoint, QPoint pos)
         const FnbGlyphInfo& g = it->second;
         p.drawImage(pos.x()+g.leftBearing, pos.y()+g.descent, texture, g.x, g.y, g.w, g.h);
 
-        p.setPen(QPen(Qt::yellow, 5));
+        p.setPen(QPen(QColor(255,255,255,50), 5));
         p.drawPoint(pos.x(), pos.y());
 
         //p.setPen(Qt::green);
@@ -124,7 +124,8 @@ QRectF FnbFont::DebugGlyph(QPainter& p, const FnbGlyphInfo& g, QPoint offset, bo
     QRectF rect(g.x + offset.x(), g.y + offset.y(), g.w, g.h);
 
     QRectF rect2 = rect.adjusted(g.leftBearing, 0,0,0);
-    p.setPen(Qt::yellow);
+    rect2.setWidth(g.horizontalAdvance);
+    p.setPen(QColor(0,255,0,60));
     p.drawRect(rect2);
 
     // selection

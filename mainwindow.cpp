@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Spelunky 2 FNB Font Creator by PeterSvP");
     ui->setupUi(this);
     setAttribute(Qt::WA_QuitOnClose, true);
+
+    ui->frame->installEventFilter(this);
+    ui->frame->setFocusPolicy(Qt::ClickFocus);
+
     //setMouseTracking(true);
     //ui->frame->setMouseTracking(true);
     //ui->centralwidget->setMouseTracking(true);
@@ -45,7 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
             x->setPlainText(settings.value(x->objectName(), x->toPlainText()).toString());
 
         for(auto x: o->findChildren<QFontComboBox*>())
+        {
             x->setCurrentFont( QFont(settings.value(x->objectName(), x->currentFont().family()).toString()));
+            x->setEditText(x->currentFont().family());
+        }
     }
 
     //auto w= ui->dwGlyphInspector->findChildren<QSpinBox*>();
@@ -86,7 +93,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     settings.setValue("MainWindow-State", saveState());
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *e)
+void MainWindow::MousePress(QMouseEvent *e)
 {
     if(!ui->frame->geometry().contains(e->pos()))return;
 
@@ -110,9 +117,16 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
     else if(e->button() == Qt::RightButton)
     {
 
-            QString s =  QInputDialog::getText(this,"Character To add","Enter character to define");
+            QString s =  QInputDialog::getText(this,"Character To add","Enter character to create/edit");
             if(s.length()==1)
             {
+                auto it = font.glyphs.find(s[0].unicode());
+                if(it!=font.glyphs.end())
+                {
+                    SetCurrentGlyph(&it->second);
+                    return;
+                }
+
                 FnbGlyphInfo A = currentGlyph != nullptr ? *currentGlyph : font.glyphs['A'];
                 FnbGlyphInfo g;
                 g.charcode = s[0].unicode();
@@ -128,15 +142,70 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *e)
+void MainWindow::MouseMove(QMouseEvent *e)
 {
     qDebug() << e;
     mousePressEvent(e);
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *e)
+void MainWindow::MouseRelease(QMouseEvent *e)
 {
 
+}
+
+void MainWindow::KeyboardControls(QKeyEvent *e)
+{
+    if(currentGlyph)
+    {
+        bool shift = e->modifiers().testFlag(Qt::ShiftModifier);
+        bool ctrl = e->modifiers().testFlag(Qt::ControlModifier);
+        bool alt = e->modifiers().testFlag(Qt::AltModifier);
+        int x = (e->key()==Qt::Key_Right) - (e->key()==Qt::Key_Left);
+        int y = (e->key()==Qt::Key_Down) - (e->key()==Qt::Key_Up);
+        qDebug() << x << y << int(e->key()) << int(Qt::Key_Left);
+
+
+        auto g = currentGlyph;
+        if(shift) {x*=4;y*=4;}
+        if(ctrl)
+        {
+            //Rezise
+            g->w += x;
+            g->h += y;
+            SetCurrentGlyph(g);
+            update();
+        }
+        else if(alt)
+        {
+            //bearing/descent
+            g->leftBearing += x;
+            g->descent += y;
+            SetCurrentGlyph(g);
+            update();
+        }
+        else
+        {
+            //move
+            g->x += x;
+            g->y += y;
+            SetCurrentGlyph(g);
+            update();
+        }
+    }
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->frame)
+    {
+        if(event->type() == QEvent::Paint) DrawMainUI((QPaintEvent*)event);
+        else if(event->type() == QEvent::MouseButtonPress) MousePress((QMouseEvent*)event);
+        else if(event->type() == QEvent::MouseButtonRelease) MouseRelease((QMouseEvent*)event);
+        else if(event->type() == QEvent::MouseMove) MouseMove((QMouseEvent*)event);
+        else if(event->type() == QEvent::KeyPress) KeyboardControls((QKeyEvent*)event);
+        return true;
+    }
+    return false;
 }
 
 void MainWindow::SetCurrentGlyph(FnbGlyphInfo *g)
@@ -172,11 +241,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::paintEvent(QPaintEvent *e)
+void MainWindow::DrawMainUI(QPaintEvent *e)
 {
-    QPainter p(this);
-    p.fillRect(ui->frame->geometry(),QColor(70,70,70));
-    p.setClipRegion(QRegion(ui->frame->geometry()));
+    QPainter p(ui->frame);
+    p.fillRect(ui->frame->rect(),QColor(70,70,70));
 
     QPoint offset(10, 10+ ui->frame->pos().y());
     //QPoint offset(ui->frame->x(),ui->frame->y());
@@ -190,7 +258,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
         glyphHitZones[&g.second] = r;
     }
 
-    font.DrawString(p, ui->lineEdit->text(), QPoint(16, size().height() - font.glyphs['A'].h*2));
+    font.DrawString(p, ui->lineEdit->text(), QPoint(16, ui->frame->size().height() - ui->fontSize->value()- 32));
 }
 
 void MainWindow::wheelEvent(QWheelEvent *e)
@@ -232,29 +300,37 @@ void MainWindow::on_unicodeSubranges_clicked()
 
 void MainWindow::on_CreateFont_clicked()
 {
-    int h = 0;
+    ui->splash->hide();
+
+    // Init font and metrics
+    QFont f(ui->fontComboBox->currentFont().family(), ui->fontSize->value());
+    f.setBold(ui->fontBold->isChecked());
+    f.setItalic(ui->fontItalic->isChecked());
+    QFontMetrics m(f);
+
+    // Init atlas and parameters
     int atlasWidth = ui->atlasWidth->value();
     int atlasHeight = ui->atlasHeight->value();
     QImage i(atlasWidth, atlasHeight, QImage::Format_ARGB32);
     QPainter p(&i);
-    int spacing = ui->atlasSpacing->value();
 
-    // Clear
+    int spacing = ui->atlasSpacing->value();
+    int mx = ui->atlasCharMarginX->value();
+    int my = ui->atlasCharMarginY->value();
+
+    // Clear atlas
     p.setCompositionMode(QPainter::CompositionMode_Clear);
     p.fillRect(i.rect(), Qt::red);
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     // Make font
-    QFont f(ui->fontComboBox->currentFont().family(), ui->fontSize->value());
-    f.setBold(ui->fontBold->isChecked());
-    f.setItalic(ui->fontItalic->isChecked());
     font.glyphs.clear();
     p.setPen(Qt::white);
     p.setFont(f);
-    QFontMetrics m(f);
     QPoint pos(0,0);
     int maxh = 0, realmaxh = 0;
 
+    // Filter and clear characters, remove dupes, sort by height then unicode
     QSet<QChar> chars;
     for(auto c: ui->charactersToInclude->toPlainText()) chars.insert(c);
     QList<QChar> allChars = chars.toList();
@@ -267,9 +343,11 @@ void MainWindow::on_CreateFont_clicked()
         return ah > bh;
     });
 
+    // Render glyphs from chars to the atlas
     for(auto c: allChars)
     {
         auto r = m.boundingRect(c); // can go out of range
+        r.adjust(-mx, -my, mx, my);
         auto nr = r.translated(-r.topLeft() + pos);
         qDebug () << nr;
         int w = r.width();
@@ -299,7 +377,7 @@ void MainWindow::on_CreateFont_clicked()
         g.y = nr.y();
         g.w = nr.width();
         g.h = nr.height();
-        g.leftBearing = m.leftBearing(c);
+        g.leftBearing = m.leftBearing(c) + mx;
         g.horizontalAdvance = m.horizontalAdvance(c);
         g.descent = r.top() + m.descent() + ui->perCharacterAdditionalVoffset->value();
         font.glyphs[c.unicode()] = g;

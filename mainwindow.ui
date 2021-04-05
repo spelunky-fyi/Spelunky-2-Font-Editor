@@ -38,14 +38,86 @@
     <property name="verticalSpacing">
      <number>0</number>
     </property>
-    <item row="0" column="3">
-     <widget class="QLineEdit" name="lineEdit">
+    <item row="0" column="2">
+     <widget class="QToolButton" name="saveFont">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="text">
-       <string>Кирилица? Do we? Hijack! Too Tired</string>
+       <string>Save FNB</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="6">
+    <item row="0" column="4">
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QSpinBox" name="zoomPercent">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="suffix">
+          <string>%</string>
+         </property>
+         <property name="minimum">
+          <number>20</number>
+         </property>
+         <property name="maximum">
+          <number>3200</number>
+         </property>
+         <property name="singleStep">
+          <number>20</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="zoom100">
+         <property name="text">
+          <string>100%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QToolButton" name="newFont">
+      <property name="text">
+       <string>New</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="7">
      <widget class="QSpinBox" name="fontBaseline">
       <property name="minimumSize">
        <size>
@@ -64,60 +136,6 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="4">
-     <widget class="QSlider" name="horizontalSlider">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="minimum">
-       <number>10</number>
-      </property>
-      <property name="maximum">
-       <number>400</number>
-      </property>
-      <property name="value">
-       <number>100</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLabel" name="label_3">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Baseline:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QToolButton" name="saveFont">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Save FNB</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QToolButton" name="loadFont">
       <property name="sizePolicy">
@@ -131,14 +149,14 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QToolButton" name="newFont">
+    <item row="0" column="3">
+     <widget class="QLineEdit" name="lineEdit">
       <property name="text">
-       <string>New</string>
+       <string>Кирилица? Do we? Hijack! Too Tired</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="9">
+    <item row="1" column="0" colspan="10">
      <widget class="QWidget" name="frame" native="true">
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="1" column="0">
@@ -196,7 +214,7 @@
        <item row="1" column="1">
         <widget class="QFrame" name="splash">
          <property name="styleSheet">
-          <string notr="true">#splash{background:#eee; border-radius:10; border:1px solid#ccc;}</string>
+          <string notr="true">#splash{background:#ccc; border-radius:10; border:1px solid#ccc;}</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -206,6 +224,25 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_6">
           <item row="2" column="0">
+           <widget class="QCommandLinkButton" name="loadPNGAtlas">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">padding: 10</string>
+            </property>
+            <property name="text">
+             <string>Load PNG Atlas</string>
+            </property>
+            <property name="description">
+             <string>Then manually define glyphs</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
            <widget class="QLabel" name="label_19">
             <property name="font">
              <font>
@@ -227,33 +264,7 @@
              </font>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Spelunky 2 Font Editor!&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;To create font from system TTF&lt;br/&gt;or OTF use &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Font Creator &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;panel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QCommandLinkButton" name="loadPNGAtlas">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding: 10</string>
-            </property>
-            <property name="text">
-             <string>Load PNG Atlas</string>
-            </property>
-            <property name="description">
-             <string>Then manually define glyphs</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="Line" name="line_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Spelunky 2 Font Editor&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;To create font from system TTF&lt;br/&gt;or OTF use &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Font Creator &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;panel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -261,6 +272,19 @@
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="0" column="6">
+     <widget class="QLabel" name="label_3">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Baseline:</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -271,12 +295,18 @@
      <x>0</x>
      <y>0</y>
      <width>881</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dwFontCreator">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
    <property name="windowTitle">
     <string>Font Creator</string>
    </property>
@@ -685,7 +715,10 @@
            </font>
           </property>
           <property name="text">
-           <string>Create Font</string>
+           <string>Create Font (F6)</string>
+          </property>
+          <property name="shortcut">
+           <string>F6</string>
           </property>
          </widget>
         </item>
@@ -701,6 +734,12 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Glyph Inspector</string>
@@ -728,7 +767,7 @@
      <item row="0" column="0">
       <widget class="QStackedWidget" name="glyphInspectorSW">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="pgNoGlyphSelected">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -740,7 +779,7 @@
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;No glyph selected&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use right mouse click to create one&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;No glyph selected&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Right click to edit/create one&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
