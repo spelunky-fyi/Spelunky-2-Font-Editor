@@ -1,3 +1,10 @@
+# By default ignore all PNGs and FNBs
+*.png
+*.fnb
+
+# Windows trash
+*.lnk
+
 # C++ objects and libs
 *.slo
 *.lo
@@ -10,7 +17,7 @@
 *.dll
 *.dylib
 
-# Qt-es
+# Qt-es including moc/uic C++ sources
 object_script.*.Release
 object_script.*.Debug
 *_plugin_import.cpp

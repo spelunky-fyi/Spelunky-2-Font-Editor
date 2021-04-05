@@ -1,0 +1,91 @@
+The FNB File format is kinda close to bmfont's binary FNT format, 
+but with simplified header and some stuff removed from glyph data.
+
+The files consist of chunks, each chunk starts with one byte ID,
+followed by chunk's data. We have following chunks:
+
+0x01 - 11 bit file header,
+0x03 - 19-bit glyph definition
+0x04 - unknown and not supported by this app
+(I speculate 04 may be kerning data)
+
+FNB files start with the header chunk followed by array of glyph chunks,
+followed by array of 04 chunks. Chunks are concatendated with each other
+directly, no sizes and counts/lengths are present in the file.
+
+COMMON TERMS you will find in this document:
+u16 = 16-bit unsigned integer, uint16_t
+u32 = 32-bit unsigned integer, uint32_t
+i16 = 16-bit signed integer, int16_t
+f32 = 32-but floating point number, float
+
+ALL DATA IS LITTLE-ENDIAN!
+
+01 HEADER CHUNK - 11 bytes
+Header chunks contain the font baseline setting and the atlas dimensions
+01 79 00 00 00 80 3A 00 00 00 3B
+
+---+-------+-------------+-------------+
+   |  u16  |     f32     |     f32     |
+id | base  |   1/width   |   1/height  |
+---+-------+-------------+-------------+
+01 | 79 00 | 00 00 80 3A | 00 00 00 3B |
+---+-------+-------------+-------------+
+Width and height are stored as floats, 1.0 divided by the dimension.
+E.g. if you have texture of 512x256 px, this will be stored as
+1.0f/512.0f and 1.0f/256.0f
+
+03 GLYPH CHUNK - 19 bytes
+Glyph chunks contain information about a glyph present in the font atlas.
+CODE_POINT is 32-bit unicode code point of the glyph
+
+X,Y,W,H are the rectangle in the texture atlas of the glyph subimage.
+(These values are in pixels)
+
+LB is the glyph left bearing 
+(part of the left side that overlaps previous character)
+
+DC is the glyph descent 
+(think like vertical offset)
+
+HA is the glpyh horizontal advancement 
+(how many to move "cursor" right for next character)
+
+03 54 00 00 00 72 02 64 01 2A 00 37 00 04 00 13 00 29 00
+
+--+-----------+-----+-----+-----+-----+-----+-----+-------+---
+  |     u32   | u16 | u16 | u16 | u16 | i16 | i16 |  i16  |
+03|CODE_POINT |  X  |  Y  |  W  |  H  | LB  | DC  |  HA   |
+--+-----------+-----+-----+-----+-----+-----+-----+-------+---
+03 54 00 00 00 72 02 64 01 2A 00 37 00 04 00 13 00 29 00  | T
+                                                          |
+03 30 00 00 00 14 00 11 00 18 00 1D 00 02 00 FF FF 18 00  | 0
+03 31 00 00 00 58 00 12 00 0C 00 1C 00 07 00 00 00 18 00  | 1
+03 32 00 00 00 96 00 11 00 15 00 1D 00 04 00 FF FF 18 00  | 2
+03 33 00 00 00 D5 00 11 00 16 00 1D 00 04 00 FF FF 18 00  | 3
+                                                          | 
+03 34 00 00 00 14 00 51 00 17 00 1C 00 04 00 00 00 18 00  | 4
+03 35 00 00 00 56 00 51 00 15 00 1C 00 03 00 00 00 18 00  | 5
+03 36 00 00 00 95 00 51 00 17 00 1D 00 03 00 FF FF 18 00  | 6
+03 37 00 00 00 D5 00 52 00 15 00 1C 00 04 00 00 00 18 00  | 7
+                                                          | 
+03 38 00 00 00 14 00 91 00 17 00 1D 00 02 00 FF FF 18 00  | 8
+03 39 00 00 00 55 00 91 00 16 00 1D 00 03 00 FF FF 18 00  | 9
+03 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18 00  |  
+03 2E 00 00 00 DC 00 A6 00 08 00 08 00 07 00 12 00 10 00  | .
+                                                          | 
+03 3A 00 00 00 1C 00 D9 00 08 00 15 00 07 00 05 00 10 00  | :
+03 2F 00 00 00 57 00 D1 00 13 00 1E 00 05 00 FE FF 18 00  | /
+03 41 00 00 00 92 00 D2 00 1C 00 1C 00 00 00 00 00 18 00  | A
+03 42 00 00 00 D5 00 D2 00 17 00 1C 00 03 00 00 00 18 00  | B
+                                                          | 
+03 43 00 00 00 14 00 11 01 18 00 1D 00 02 00 FF FF 18 00  | C
+03 44 00 00 00 54 00 12 01 18 00 1C 00 02 00 00 00 18 00  | D
+03 45 00 00 00 97 00 12 01 13 00 1C 00 05 00 00 00 18 00  | E
+03 46 00 00 00 D7 00 12 01 13 00 1C 00 05 00 00 00 18 00  | F
+--+-----------+-----+-----+-----+-----+-----+-----+-------+---
+
+04 UNKNOWN CHUNK
+
+Thiese chunk aren't required. Even if I strip all such chunks, the font works.
+I speculate that these chunks define kerning pairs.
