@@ -119,13 +119,14 @@ float FnbFont::DrawGlyph(QPainter &p, int codepoint, QPoint pos)
     return pos.x();
 }
 
-QRectF FnbFont::DebugGlyph(QPainter& p, const FnbGlyphInfo& g, QPoint offset, bool selected)
+QRectF FnbFont::DebugGlyph(QPainter& p, const FnbGlyphInfo& g, QPoint offset, float f, bool selected)
 {
-    QRectF rect(g.x + offset.x(), g.y + offset.y(), g.w, g.h);
+    QRectF rect(g.x*f + offset.x(), g.y*f + offset.y(), g.w*f, g.h*f);
+    QRectF rect2 = rect.adjusted(g.leftBearing*f, 0,0,0);
+    rect2.setWidth(g.horizontalAdvance*f);
 
-    QRectF rect2 = rect.adjusted(g.leftBearing, 0,0,0);
-    rect2.setWidth(g.horizontalAdvance);
-    p.setPen(QColor(0,255,0,60));
+    QColor c = selected? Qt::yellow: Qt::green; c.setAlpha(60);
+    p.setPen(c);
     p.drawRect(rect2);
 
     // selection

@@ -8,7 +8,12 @@
 #include <set>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <cmath>
+#include <QDesktopServices>
 
+template <typename T> int sign(T val) {
+    return (T(0) < val) - (val < T(0));
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -127,30 +132,37 @@ void MainWindow::MousePress(QMouseEvent *e)
                     return;
                 }
 
-                FnbGlyphInfo A = currentGlyph != nullptr ? *currentGlyph : font.glyphs['A'];
+                FnbGlyphInfo src = currentGlyph != nullptr ? *currentGlyph : FnbGlyphInfo{0,0,0,32,32,0,0,0};
                 FnbGlyphInfo g;
                 g.charcode = s[0].unicode();
                 g.x = e->pos().x();
                 g.y = e->pos().y();
-                g.w = A.w == 0 ? 32 : A.w;
-                g.h = A.h == 0 ? 32 : A.h;
-                g.leftBearing = A.leftBearing;
+                g.w = src.w == 0 ? 32 : src.w;
+                g.h = src.h == 0 ? 32 : src.h;
                 font.glyphs[s[0].unicode()] = g;
                 SetCurrentGlyph(&font.glyphs[s[0].unicode()]);
             }
-
+    }
+    else if(e->buttons().testFlag(Qt::MiddleButton))
+    {
+        panInit = e->pos();
+        panning = true;
     }
 }
 
 void MainWindow::MouseMove(QMouseEvent *e)
 {
-    qDebug() << e;
-    mousePressEvent(e);
+    if(panning)
+    {
+        translate += e->pos()-panInit;
+        panInit = e->pos();
+        update();
+    }
 }
 
 void MainWindow::MouseRelease(QMouseEvent *e)
 {
-
+    panning = false;
 }
 
 void MainWindow::KeyboardControls(QKeyEvent *e)
@@ -167,7 +179,14 @@ void MainWindow::KeyboardControls(QKeyEvent *e)
 
         auto g = currentGlyph;
         if(shift) {x*=4;y*=4;}
-        if(ctrl)
+        if(ctrl && alt)
+        {
+            // Horz. Advancement
+            g->horizontalAdvance += x;
+            SetCurrentGlyph(g);
+            update();
+        }
+        else if(ctrl)
         {
             //Rezise
             g->w += x;
@@ -188,6 +207,10 @@ void MainWindow::KeyboardControls(QKeyEvent *e)
             //move
             g->x += x;
             g->y += y;
+            if(x<0) x=0;
+            if(y<0) y=0;
+            if(x+g->w > font.texture.width()) x = font.texture.width()-g->w;
+            if(y+g->h > font.texture.height()) y = font.texture.height()-g->h;
             SetCurrentGlyph(g);
             update();
         }
@@ -246,27 +269,32 @@ void MainWindow::DrawMainUI(QPaintEvent *e)
     QPainter p(ui->frame);
     p.fillRect(ui->frame->rect(),QColor(70,70,70));
 
-    QPoint offset(10, 10+ ui->frame->pos().y());
+    QPoint offset(translate.x(), translate.y());
     //QPoint offset(ui->frame->x(),ui->frame->y());
-    p.drawImage(QRect(offset, font.texture.size()) , font.texture);
-    p.fillRect(QRect(offset.x(),offset.y(),font.texture.width(),font.texture.height()), QColor(40,40,40,150));
+    p.drawImage(QRect(offset, font.texture.size()*scale) , font.texture);
+    p.fillRect(QRect(offset.x(),offset.y(),font.texture.width()*scale,font.texture.height()*scale), QColor(40,40,40,150));
 
     glyphHitZones.clear();
     for(auto& g: font.glyphs)
     {
-        auto r = font.DebugGlyph(p,g.second, offset, currentGlyph == &g.second);
+        if(translate.x()+(g.second.x+g.second.w)*scale < -20) continue;
+        if(translate.x()+g.second.x*scale > ui->frame->width()+20) continue;
+        if(translate.y()+(g.second.y+g.second.h)*scale < -20) continue;
+        if(translate.y()+g.second.y*scale > ui->frame->height()+20) continue;
+        auto r = font.DebugGlyph(p,g.second, offset, scale, currentGlyph == &g.second);
         glyphHitZones[&g.second] = r;
     }
 
-    font.DrawString(p, ui->lineEdit->text(), QPoint(16, ui->frame->size().height() - ui->fontSize->value()- 32));
+    qDebug() << ui->previewDrawStringHeight->value();
+    font.DrawString(p, ui->lineEdit->text(),
+                    QPoint(
+                        32,
+                        ui->frame->height() * (1-(ui->previewDrawStringHeight->value() / 10000.0))));
 }
 
 void MainWindow::wheelEvent(QWheelEvent *e)
 {
-    qDebug() << e;
-    scale += float(e->angleDelta().y())/360.0;
-    e->accept();
-    repaint();
+    ui->zoomPercent->setValue(ui->zoomPercent->value() + sign(e->angleDelta().y())*20);
 }
 
 void MainWindow::on_loadFont_clicked()
@@ -489,6 +517,7 @@ void MainWindow::on_newFont_clicked()
     {
         font = FnbFont();
         ui->splash->show();
+        translate = QPoint(32,32);
         update();
     }
 }
@@ -501,4 +530,56 @@ void MainWindow::on_loadPNGAtlas_clicked()
         font.texture = QImage(png);
         ui->splash->hide();
     }
+}
+
+void MainWindow::on_zoomPercent_valueChanged(int arg1)
+{
+    scale = arg1/100.0;
+    update();
+}
+
+void MainWindow::on_zoom100_clicked()
+{
+    ui->zoomPercent->setValue(100);
+    update();
+}
+
+void MainWindow::on_previewDrawStringHeight_sliderMoved(int position)
+{
+    update();
+}
+
+void MainWindow::on_delGlyph_clicked()
+{
+    if(QMessageBox::question(this, "Del Glyph?",
+                             "Sure? Just to avoid loss of work!\n"
+                             "(If you touch DEL, I won't ask again)",
+                             QMessageBox::Yes, QMessageBox::No)
+            == QMessageBox::Yes)
+    {
+        font.glyphs.erase(currentGlyph->charcode);
+        SetCurrentGlyph(nullptr);
+    }
+}
+
+void MainWindow::on_copyGlyph_clicked()
+{
+    QString s =  QInputDialog::getText(this,"Character To add","Enter character to create/edit");
+    if(s.length()==1)
+    {
+        auto it = font.glyphs.find(s[0].unicode());
+        if(it!=font.glyphs.end())
+        {
+            QMessageBox::information(this, "Glyph already exists", "Cannot copy over existing glyph!");
+            return;
+        }
+        font.glyphs[s[0].unicode()] = *currentGlyph;
+        font.glyphs[s[0].unicode()].charcode = s[0].unicode();
+        SetCurrentGlyph(&font.glyphs[s[0].unicode()]);
+    }
+}
+
+void MainWindow::on_SplashLabel_linkActivated(const QString &link)
+{
+    QDesktopServices::openUrl(link);
 }

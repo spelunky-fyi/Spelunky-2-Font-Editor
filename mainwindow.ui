@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>FNB Font Creator</string>
+   <string>Spelunky 2 Font Editor by PeterSvP</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -32,10 +32,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <property name="horizontalSpacing">
-     <number>3</number>
-    </property>
-    <property name="verticalSpacing">
+    <property name="spacing">
      <number>0</number>
     </property>
     <item row="0" column="2">
@@ -49,9 +46,12 @@
       <property name="text">
        <string>Save FNB</string>
       </property>
+      <property name="shortcut">
+       <string>Ctrl+S</string>
+      </property>
      </widget>
     </item>
-    <item row="0" column="4">
+    <item row="0" column="5">
      <widget class="QFrame" name="frame_2">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -105,6 +105,9 @@
          <property name="text">
           <string>100%</string>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+0</string>
+         </property>
         </widget>
        </item>
       </layout>
@@ -117,7 +120,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="7">
+    <item row="0" column="8">
      <widget class="QSpinBox" name="fontBaseline">
       <property name="minimumSize">
        <size>
@@ -147,32 +150,42 @@
       <property name="text">
        <string>Open FNB</string>
       </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="text">
-       <string>Кирилица? Do we? Hijack! Too Tired</string>
+      <property name="shortcut">
+       <string>Ctrl+O</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="10">
+    <item row="0" column="4">
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>the quick brown PeterSvP made a crazy mod</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="11">
      <widget class="QWidget" name="frame" native="true">
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="1" column="0">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="1" column="3">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -185,24 +198,14 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="1">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="1">
+       <item row="0" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
@@ -211,8 +214,30 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
         <widget class="QFrame" name="splash">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="styleSheet">
           <string notr="true">#splash{background:#ccc; border-radius:10; border:1px solid#ccc;}</string>
          </property>
@@ -252,10 +277,13 @@
             <property name="text">
              <string>To create font from premade atlas, use</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QLabel" name="label_17">
+           <widget class="QLabel" name="SplashLabel">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
@@ -264,17 +292,46 @@
              </font>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Spelunky 2 Font Editor&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;To create font from system TTF&lt;br/&gt;or OTF use &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Font Creator &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;panel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Spelunky 2 Font Editor&lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:400;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;by PeterSvP (&lt;/span&gt;&lt;a href=&quot;https://steamcommunity.com/id/petersvp&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:400; text-decoration: underline; color:#0000ff;&quot;&gt;Steam&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;https://twitter.com/petersvp&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:400; text-decoration: underline; color:#0000ff;&quot;&gt;Twitter&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;https://www.instagram.com/petersvp/&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:400; text-decoration: underline; color:#0000ff;&quot;&gt;Instagram&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;https://twitch.tv/petersvp&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:400; text-decoration: underline; color:#0000ff;&quot;&gt;Twitch&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;To create font from system TTF&lt;br/&gt;or OTF use &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Font Creator &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;panel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" rowspan="3">
+        <widget class="QSlider" name="previewDrawStringHeight">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>2000</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
-    <item row="0" column="6">
+    <item row="0" column="7">
      <widget class="QLabel" name="label_3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -287,19 +344,24 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="3">
+     <widget class="QToolButton" name="loadPNG">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Load PNG</string>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+I</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>881</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dwFontCreator">
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
@@ -767,7 +829,7 @@
      <item row="0" column="0">
       <widget class="QStackedWidget" name="glyphInspectorSW">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="pgNoGlyphSelected">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -972,7 +1034,7 @@
             </widget>
            </item>
            <item row="0" column="3">
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QToolButton" name="delGlyph">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                <horstretch>0</horstretch>
@@ -985,7 +1047,7 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QToolButton" name="toolButton_2">
+            <widget class="QToolButton" name="copyGlyph">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                <horstretch>0</horstretch>
@@ -1016,12 +1078,28 @@
    <slot>repaint()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
+     <x>311</x>
      <y>42</y>
     </hint>
     <hint type="destinationlabel">
      <x>228</x>
      <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadPNG</sender>
+   <signal>clicked()</signal>
+   <receiver>loadPNGAtlas</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>28</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>351</y>
     </hint>
    </hints>
   </connection>

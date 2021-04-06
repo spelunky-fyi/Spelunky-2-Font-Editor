@@ -24,8 +24,9 @@ public:
     QSettings settings;
     std::unordered_map<FnbGlyphInfo*, QRectF> glyphHitZones;
 
-    float scale = 1;
-    QPoint translate;
+    float scale = 1, previewSliderPercent = 0.8;
+    QPoint translate = QPoint(32,10), panInit;
+    bool panning = false;
     FnbGlyphInfo* currentGlyph = nullptr;
 
     MainWindow(QWidget *parent = nullptr);
@@ -79,6 +80,18 @@ private slots:
     void on_newFont_clicked();
 
     void on_loadPNGAtlas_clicked();
+
+    void on_zoomPercent_valueChanged(int arg1);
+
+    void on_zoom100_clicked();
+
+    void on_previewDrawStringHeight_sliderMoved(int position);
+
+    void on_delGlyph_clicked();
+
+    void on_copyGlyph_clicked();
+
+    void on_SplashLabel_linkActivated(const QString &link);
 
 public:
     Ui::MainWindow *ui;
