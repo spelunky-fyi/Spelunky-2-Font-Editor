@@ -54,17 +54,7 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 1. **If your font is wrongly aligned or _don't render at all_** in the game, play with the `Baseline` setting in the main toolbar. Values between 20-40 will work the best.
 1. Note that some fonts just don't like the font system in Spelunky 2 and key/button icons will always be wrongly aligned.
 
-## UNDER HEAVY DEVELOPMENT
-The tool is still not completed in full, thus no proper documentation is available at this point. Play with the tool yourself for now.
-
-If the font looks badly offsetted in game, play with the Baseline setting.
-
-It's better to do some sharpen filter on the generated atlas because by default Spelunky 2 text rendering does not play super well with anti-aliasing. By default only the Red channel is used from the sprite atlas, however this tool renders transparent PNG sheet.
-
-## How to use?
-Since currently the tool is incomplete, there are no available binary builds. You must use the source code and build the app yourself.
-
-## How to build?
+## How to build from source?
 1. [Get Qt open-source and Qt Creator](https://www.qt.io/download-open-source) 
 1. Open the `FNBTool.pro` in Qt Creator.
 1. Enjoy! So far, only `qmake` is supported.
