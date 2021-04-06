@@ -3,6 +3,18 @@ A desktop app used to create Spelunky 2 sprite fonts.
 
 The tool operates on the FNB font files from Spelunky 2 and their respective texture atlasses, however only as PNG. Wth this tool you can either create font using any system-installed font (bitmap, TTF, OTF, whatever Qt supports on your OS), or load manually designed font atlas and manually define the font glyphs.
 
+## Download for Windows
+To downlaod pre-built package for Windows [go to the Releases page](https://github.com/spelunky-fyi/Spelunky-2-Font-Editor/releases). No pre-built package available for Linux. 
+
+## How to use?
+The app should be very straignt-forward. You have two options:
+1. Automatically create sprite font from installed system font (TTF, OTF), or
+1. Manually design your atlas and define your font by hand.
+
+## Creating sprite font from TTF/OTF
+1. Get the fonts you need, and **install** them to your system.
+1. Start Font Creator.
+
 ## UNDER HEAVY DEVELOPMENT
 The tool is still not completed in full, thus no proper documentation is available at this point. Play with the tool yourself for now.
 
