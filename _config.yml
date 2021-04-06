@@ -1,6 +1,6 @@
 show_downloads: true
 theme: jekyll-theme-architect
-title: <img src="https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/site-logo.png" width="450">
+title: <img src="https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/site-logo.png" width="90%">
 description: Tired of that font? Change as you like!<br><small>Also adds Unicode support for other languages!</small>
 github:
   zip_url: https://github.com/spelunky-fyi/Spelunky-2-Font-Editor/releases
