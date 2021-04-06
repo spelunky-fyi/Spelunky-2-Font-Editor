@@ -26,25 +26,33 @@ The app should be very straignt-forward. You have two options:
 	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-glyphs.png)
 
 ## Manually creating font and editing glyphs
-Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as you like, or add new characters tofonts.
+Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as you like, or add new characters to fonts.
 
 1. Draw yourself anatlas with glyphs. 
 1. Start Spelunky 2 Font Editor. Hit `Load PNG` button and feed in your texture atlas.
 1. *Right click* anywhere to search glyph or define new one. Popup will ask you to input a single character. If such character already exists in the font, it will be automatically selected for you. If such character does not exist, a character definition will be created for you.
-1. Edit per-character properties into the Inspector
+1. Left-click on a  green rectangle to select that glyph too.
+1. Edit selected glyph properties into the *Glyph Inspector*.
 
-	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/slyph-inspector.png)
+	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/glyph-inspector.png)
+ 
 
-
-1. Use the *arrow keys* to move the bounding box, *Ctrl+arrows* to resize the bounding box, *Alt+arrows* to edit the *left bearing* and *descent* and Ctrl+Alt+Arrows to edit *horizontal advance*.
+1. The Inspector may not be the best UI in this app. To feel the power, here are all the keyboard controls:
+	+ Use the `arrow keys` to move the bounding box, 
+	+ `Ctrl+Arrows` to resize the bounding box, 
+	+ `Alt+Arrows` to edit the *left bearing* and *descent* and 
+	+ `Ctrl+Alt+Arrows` to edit *horizontal advance*.
+	+ Hold `Shift` to make nudging stronger.
 1. During editing, save your projects as FNB. I encourage you to **treat FNB files as project files**!
 
 
-## Getting your font into the game
+## Getting your fonts into the game
 1. When you are ready, hit the `Save FNB`. If you select a folder within Modlunky 2 mod pack and save your FNB file into `Data/Fonts` of said pack, this app will automatically place the PNG file into `Data/Textures` for you. 
 1. In order to make your fonts work in the game, they must be named `fontfirasans.fnb` for the Main Menu and Journal texts and `fontyorkten.fnb` for Journal labels and other places. The `fontmono.fnb` is used at the seed dialog. There is also unused font named `fontdebug.fnb`.
 1. While the original textures are in DDS format, Playlunky and Modlunky 2 can load PNG files for convenience, and PNG files are usually easier to manipulate.
-1. Feel free to edit your PNG texture in any way you like. You are encouraged to pass this png through Unsharp Mask filter, because Spelunky 2 does not natively render texts alpha-blended!
+1. Feel free to edit your PNG texture in any way you like. You are *encouraged* to pass this PNG through **some sharpening filter**, because Spelunky 2 does not natively render texts alpha-blended properly! Also Spelunky 2 does not support colored font atlasses (this can hopefully be fixed by a shader mod).
+1. **If your font is wrongly aligned or _don't render at all_** in the game, play with the `Baseline` setting in the main toolbar. Values between 20-40 will work the best.
+1. Note that some fonts just don't like the font system in Spelunky 2 and key/button icons will always be wrongly aligned.
 
 ## UNDER HEAVY DEVELOPMENT
 The tool is still not completed in full, thus no proper documentation is available at this point. Play with the tool yourself for now.
