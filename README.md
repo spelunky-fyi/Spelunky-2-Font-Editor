@@ -13,7 +13,18 @@ The app should be very straignt-forward. You have two options:
 
 ## Creating sprite font from TTF/OTF
 1. Get the fonts you need, and **install** them to your system.
-1. Start Font Creator.
+1. Start Spelunky 2 Font Editor. Focus your attention to the Font Creator tab.
+
+	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-creator.png)
+
+1. Fill in some sample text into the text field on the top toolbar of the app. This will be used for testing how your font behaves.
+1. Select the font family and the font size. Recommended font size for Spelunky 2 is 40 to 60.
+1. Use the `Unicode Subranges` button or manually type the characters to include in your font.
+1. Hit `Create Font (F6)` and observe the results.
+1. Tweak the *Atlas Settings* and *Per Character*  properties and hit `Create Font (F6)` until you are satisfied with the result. **Ensure** that all green rectangles are in the boundaries or your texture (the darker rectangle).
+
+	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-glyphs.png)
+
 
 ## UNDER HEAVY DEVELOPMENT
 The tool is still not completed in full, thus no proper documentation is available at this point. Play with the tool yourself for now.
