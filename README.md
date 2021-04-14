@@ -49,7 +49,7 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 
 	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-data.png)
 	
-1. **DO NOT FORGET TO DEFINE THE HORIZONTAL ADVANCEMENT,** IT's CRITICAL! Otherwise ALL GLYPHS WILL LAND IN SAME PLACE!**
+1. **DO NOT FORGET TO DEFINE THE HORIZONTAL ADVANCEMENT,** IT's CRITICAL! Otherwise ALL GLYPHS WILL LAND IN SAME PLACE!
 
 1. **DO NOT FORGET TO DEFINE THE SPACE CHARACTER!** IT's CRITICAL!
 
