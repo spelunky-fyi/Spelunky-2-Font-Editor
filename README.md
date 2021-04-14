@@ -67,7 +67,9 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 1. In order to make your fonts work in the game, they must be named `fontfirasans.fnb` for the Main Menu and Journal texts and `fontyorkten.fnb` for Journal labels and other places. The `fontmono.fnb` is used at the seed dialog. There is also unused font named `fontdebug.fnb`.
 1. While the original textures are in DDS format, Playlunky and Modlunky 2 can load PNG files for convenience, and PNG files are usually easier to manipulate. This app cannot load DDS files nor can export DDS files. Convert to PNG first.
 1. Feel free to edit your PNG texture in any way you like. You are *encouraged* to pass this PNG through **some sharpening filter**, because Spelunky 2 does not natively render texts alpha-blended properly! Also Spelunky 2 does not support colored font atlasses (this can hopefully be fixed by a shader mod).
-1. **If your font is wrongly aligned or _don't render at all_** in the game, play with the `Baseline` setting in the main window's top toolbar. Values between 25-40 will work the best.
+1. **IF YOUR FONT IS WRONGLY ALIGNED OR _DON'T RENDER AT ALL_** in the game, play with the `Baseline` setting in the main window's top toolbar. Values between 25-40 will work the best.
+1. **IF YOUR FONT IS TOO SMALL OR TOO BIG**, Edit the font size. If you are making your own font from custom atlas, rescale the atlas e.g. in Photoshop, then use the _Table Editor's_ **Scale** feature to fix all the glyphs. Better use exact sizes, e.g. 2x/4x or 0.5x.
+1. **IF ALL GLYHPS OF YOUR FONT APPEARS IN SINGLE PLACE**, and you created the font from your custom atlas, read the *Manually creating font and editing glyphs* section to understand why.
 1. Note that some fonts just don't like the font system in Spelunky 2 and key/button icons will always be wrongly aligned.
 
 ## How to build from source?
