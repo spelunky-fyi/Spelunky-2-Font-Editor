@@ -44,7 +44,14 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 1. Edit selected glyph properties into the *Glyph Inspector*. 
 
 	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/glyph-inspector.png)
-	
+
+1. To *feel the power*, **here are all the keyboard controls**:
+	+ Use the `arrow keys` to move the bounding box of the glyph, 
+	+ `Ctrl+Arrows` to resize the bounding box, 
+	+ `Alt+Arrows` to edit the *left bearing* and *descent* and 
+	+ `Ctrl+Alt+Arrows` to edit *horizontal advance*.
+	+ Hold `Shift` to make nudging stronger.
+
 1. Or use the *Table Font Data Editor*.
 
 	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-data.png)
@@ -53,12 +60,6 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 
 1. **DO NOT FORGET TO DEFINE THE SPACE CHARACTER!** IT's CRITICAL!
 
-1. To *feel the power*, **here are all the keyboard controls**:
-	+ Use the `arrow keys` to move the bounding box of the glyph, 
-	+ `Ctrl+Arrows` to resize the bounding box, 
-	+ `Alt+Arrows` to edit the *left bearing* and *descent* and 
-	+ `Ctrl+Alt+Arrows` to edit *horizontal advance*.
-	+ Hold `Shift` to make nudging stronger.
 1. During editing, save your projects as FNB. I encourage you to **treat FNB files as project files**!
 
 
