@@ -19,15 +19,18 @@ SOURCES += \
     fnbfont.cpp \
     main.cpp \
     mainwindow.cpp \
+    tableeditor.cpp \
     unicodesubrange.cpp
 
 HEADERS += \
     fnbfont.h \
     mainwindow.h \
+    tableeditor.h \
     unicodesubrange.h
 
 FORMS += \
     mainwindow.ui \
+    tableeditor.ui \
     unicodesubrange.ui
 
 RC_ICONS = appicon.ico
@@ -36,3 +39,6 @@ RC_ICONS = appicon.ico
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc

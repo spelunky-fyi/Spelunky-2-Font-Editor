@@ -23,6 +23,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_QuitOnClose, true);
 
+    unicodeSubrange = new UnicodeSubrange(this);
+    unicodeSubrange->chars = &charsToAdd;
+    unicodeSubrange->lineEdit = ui->charactersToInclude;
+
+    tableEditor = new TableEditor(this);
+    tableEditor->mainWindow = this;
+    //tableEditor->show();
+
     ui->frame->installEventFilter(this);
     ui->frame->setFocusPolicy(Qt::ClickFocus);
 
@@ -32,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->frame->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     //font.Load("f1.fnb", "f1.png");
+    tableEditor->RebuildUI();
+
     //font.Load("fontfirasans.fnb", "fontfirasans.png");
     //font.Load("fontyorkten.fnb", "fontyorkten.png");
 
@@ -67,11 +77,14 @@ MainWindow::MainWindow(QWidget *parent)
     restoreState(settings.value("MainWindow-State").toByteArray());
 
     SetCurrentGlyph(nullptr);
+
+    if(font.glyphs.size()>0) ui->splash->hide();
 }
 
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+
     // Save all states
     QObjectList targets = {ui->centralwidget, ui->dwFontCreator};
     QStringList bans = {"qt_spinbox_lineedit"};
@@ -174,7 +187,7 @@ void MainWindow::KeyboardControls(QKeyEvent *e)
         bool alt = e->modifiers().testFlag(Qt::AltModifier);
         int x = (e->key()==Qt::Key_Right) - (e->key()==Qt::Key_Left);
         int y = (e->key()==Qt::Key_Down) - (e->key()==Qt::Key_Up);
-        qDebug() << x << y << int(e->key()) << int(Qt::Key_Left);
+        qDebug() << "MainWindow::KeyboardControls" << x << y << int(e->key()) << int(Qt::Key_Left);
 
 
         auto g = currentGlyph;
@@ -233,9 +246,10 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
 void MainWindow::SetCurrentGlyph(FnbGlyphInfo *g)
 {
-    currentGlyph = g;
     auto w= ui->dwGlyphInspector->findChildren<QLineEdit*>();
     for(auto o:w)o->blockSignals(true);
+
+    currentGlyph = g;
 
     ui->glyphInspectorContents->setEnabled(g);
     if(g)
@@ -257,6 +271,8 @@ void MainWindow::SetCurrentGlyph(FnbGlyphInfo *g)
     }
 
     for(auto o:w)o->blockSignals(false);
+
+    if(tableEditor->isVisible()) tableEditor->UpdateGlyph(g, true);
 }
 
 MainWindow::~MainWindow()
@@ -285,7 +301,7 @@ void MainWindow::DrawMainUI(QPaintEvent *e)
         glyphHitZones[&g.second] = r;
     }
 
-    qDebug() << ui->previewDrawStringHeight->value();
+    qDebug() << "MainWindow::DrawMainUI" << ui->previewDrawStringHeight->value();
     font.DrawString(p, ui->lineEdit->text(),
                     QPoint(
                         32,
@@ -316,6 +332,7 @@ void MainWindow::on_loadFont_clicked()
     if(QFile::exists(fnb) && QFile::exists(png))
     {
         font.Load(fnb, png);
+        tableEditor->RebuildUI();
         ui->splash->hide();
         SetCurrentGlyph(nullptr);
     }
@@ -323,7 +340,7 @@ void MainWindow::on_loadFont_clicked()
 
 void MainWindow::on_unicodeSubranges_clicked()
 {
-    subrangePopup->show();
+    unicodeSubrange->show();
 }
 
 void MainWindow::on_CreateFont_clicked()
@@ -452,60 +469,67 @@ void MainWindow::on_fontItalic_clicked(bool checked)
 
 void MainWindow::on_character_textChanged(const QString &arg1)
 {
+    return;
     if(!currentGlyph) return;
     if(arg1.size()!=1) return;
     currentGlyph->charcode = arg1[0].unicode();
-    repaint();
+    update();
 }
 
 void MainWindow::on_charPosX_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->x = arg1;
-    repaint();
-
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charPosY_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->y = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charWidth_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->w = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charHeight_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->h = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charLeftBearing_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->leftBearing = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charHorizontalAdvance_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->horizontalAdvance = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_charDescent_valueChanged(int arg1)
 {
     if(!currentGlyph) return;
     currentGlyph->descent = arg1;
-    repaint();
+    SetCurrentGlyph(currentGlyph);
+    update();
 }
 
 void MainWindow::on_newFont_clicked()
@@ -519,6 +543,7 @@ void MainWindow::on_newFont_clicked()
         ui->splash->show();
         translate = QPoint(32,32);
         update();
+        tableEditor->RebuildUI();
     }
 }
 
@@ -582,4 +607,9 @@ void MainWindow::on_copyGlyph_clicked()
 void MainWindow::on_SplashLabel_linkActivated(const QString &link)
 {
     QDesktopServices::openUrl(link);
+}
+
+void MainWindow::on_tableEditor_clicked()
+{
+    tableEditor->show();
 }

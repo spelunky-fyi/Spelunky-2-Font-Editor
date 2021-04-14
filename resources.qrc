@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/disk.png</file>
+        <file>Icons/folder.png</file>
+        <file>Icons/folder_image.png</file>
+        <file>Icons/table.png</file>
+        <file>Icons/text_bold.png</file>
+        <file>Icons/text_italic.png</file>
+        <file>Icons/text_kerning.png</file>
+        <file>Icons/text_letterspacing.png</file>
+        <file>Icons/page_white.png</file>
+        <file>Icons/zoom.png</file>
+        <file>Icons/arrow_out.png</file>
+    </qresource>
+</RCC>

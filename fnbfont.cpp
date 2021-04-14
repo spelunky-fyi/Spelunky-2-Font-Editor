@@ -80,7 +80,7 @@ void FnbFont::ParseFNB(const QByteArray bytes)
         d.readRawData( (char*)&e.horizontalAdvance, 2);
 
         glyphs[e.charcode] = e;
-        qDebug() << e.charcode << (QChar) e.charcode << ": w=" << e.w <<" h=" << e.h;
+        qDebug() << "FnbFont::ParseFNB" << e.charcode << (QChar) e.charcode << ": w=" << e.w <<" h=" << e.h;
         c++;
     }
     qDebug() << "Entries = " << c;
@@ -155,4 +155,12 @@ QRectF FnbFont::DebugGlyph(QPainter& p, const FnbGlyphInfo& g, QPoint offset, fl
     //p.drawPoint( g.x + offset.x(), g.y + offset.y() + g.horizontalOffset);
 
     return rect;
+}
+
+FnbGlyphInfo *FnbFont::operator[](uint32_t unicode)
+{
+    for(auto& g: glyphs)
+        if(g.second.charcode == unicode)
+            return &g.second;
+    return nullptr;
 }

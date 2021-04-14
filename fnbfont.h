@@ -25,6 +25,7 @@ struct FnbFont
     void DrawString(QPainter& p, QString text, QPoint pos);
     float DrawGlyph(QPainter& p, int glyph, QPoint pos);
     QRectF DebugGlyph(QPainter& p, const FnbGlyphInfo& g, QPoint offset, float scale, bool selected = false);
+    FnbGlyphInfo* operator[](uint32_t unicode);
 };
 
 #endif // FNBFONT_H

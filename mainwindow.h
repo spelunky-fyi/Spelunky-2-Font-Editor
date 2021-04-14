@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <unicodesubrange.h>
 #include "fnbfont.h"
+#include "tableeditor.h"
 #include <unordered_map>
 
 QT_BEGIN_NAMESPACE
@@ -20,14 +21,15 @@ class MainWindow : public QMainWindow
 public:
     FnbFont font;
     std::set<QChar> charsToAdd;
-    UnicodeSubrange* subrangePopup;
+    TableEditor* tableEditor;
+    UnicodeSubrange* unicodeSubrange;
     QSettings settings;
     std::unordered_map<FnbGlyphInfo*, QRectF> glyphHitZones;
 
     float scale = 1, previewSliderPercent = 0.8;
     QPoint translate = QPoint(32,10), panInit;
     bool panning = false;
-    FnbGlyphInfo* currentGlyph = nullptr;
+    mutable FnbGlyphInfo* currentGlyph = nullptr;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -43,7 +45,7 @@ public:
 
     bool eventFilter(QObject *watched, QEvent *event);
 
-    void SetCurrentGlyph(FnbGlyphInfo* g);
+    void SetCurrentGlyph(FnbGlyphInfo *g);
 
     void UpdateFontPreview(QFont f);
 
@@ -92,6 +94,8 @@ private slots:
     void on_copyGlyph_clicked();
 
     void on_SplashLabel_linkActivated(const QString &link);
+
+    void on_tableEditor_clicked();
 
 public:
     Ui::MainWindow *ui;
