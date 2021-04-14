@@ -41,11 +41,19 @@ Spelunky 2 Font Editor allows you to manually define glyphs and edit glyphs as y
 1. Start Spelunky 2 Font Editor. Hit `Load PNG` button and feed in your texture atlas.
 1. *Right click* anywhere to search glyph or define new one. Popup will ask you to input a single character. If such character already exists in the font, it will be automatically selected for you. If such character does not exist, a character definition will be created for you.
 1. *Left-click* on a green rectangle to select that glyph.
-1. Edit selected glyph properties into the *Glyph Inspector*. **DEFINE THE Horizontal Advancement, NOT JUST THE BOUNDING BOX!**
+1. Edit selected glyph properties into the *Glyph Inspector*. 
 
 	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/glyph-inspector.png)
+	
+1. Or use the *Table Font Data Editor*.
 
-1. The Inspector may not be the best UI in this app. To *feel the power*, here are all the keyboard controls:
+	![](https://raw.githubusercontent.com/spelunky-fyi/Spelunky-2-Font-Editor/main/images/font-data.png)
+	
+1. **DO NOT FORGET TO DEFINE THE HORIZONTAL ADVANCEMENT,** IT's CRITICAL! Otherwise ALL GLYPHS WILL LAND IN SAME PLACE!**
+
+1. **DO NOT FORGET TO DEFINE THE SPACE CHARACTER!** IT's CRITICAL!
+
+1. To *feel the power*, **here are all the keyboard controls**:
 	+ Use the `arrow keys` to move the bounding box of the glyph, 
 	+ `Ctrl+Arrows` to resize the bounding box, 
 	+ `Alt+Arrows` to edit the *left bearing* and *descent* and 
